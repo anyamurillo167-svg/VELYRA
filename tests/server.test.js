@@ -17,6 +17,8 @@ async function getFreePort() {
 test('API de VELYRA: flujo principal y validaciones', async t => {
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'velyra-test-'));
   fs.copyFileSync(path.join(__dirname, '..', 'server.js'), path.join(temp, 'server.js'));
+  fs.copyFileSync(path.join(__dirname, '..', 'index.html'), path.join(temp, 'index.html'));
+  fs.copyFileSync(path.join(__dirname, '..', '404.html'), path.join(temp, '404.html'));
   fs.cpSync(path.join(__dirname, '..', 'data'), path.join(temp, 'data'), { recursive: true });
   const port = await getFreePort();
   const base = `http://127.0.0.1:${port}`;
@@ -40,8 +42,18 @@ test('API de VELYRA: flujo principal y validaciones', async t => {
   }
   assert.equal(ready, true, 'el servidor debe iniciar');
 
-  const health = await fetch(`${base}/api/health`).then(r => r.json());
+  const healthResponse = await fetch(`${base}/api/health`);
+  const health = await healthResponse.json();
   assert.equal(health.ok, true);
+  assert.equal(healthResponse.headers.get('x-content-type-options'), 'nosniff');
+
+  const head = await fetch(base, { method: 'HEAD' });
+  assert.equal(head.status, 200);
+  assert.equal(await head.text(), '');
+
+  const missing = await fetch(`${base}/ruta-que-no-existe`);
+  assert.equal(missing.status, 404);
+  assert.match(await missing.text(), /no encontramos|no existe|página/i);
 
   const productsResponse = await fetch(`${base}/api/products`);
   assert.equal(productsResponse.status, 200);
@@ -52,6 +64,11 @@ test('API de VELYRA: flujo principal y validaciones', async t => {
     body: JSON.stringify({ message: 'Hola' })
   }).then(r => r.json());
   assert.match(chat.reply, /Holiii/i);
+
+  const malformed = await fetch(`${base}/api/chat`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{'
+  });
+  assert.equal(malformed.status, 400);
 
   const invalidContact = await fetch(`${base}/api/contact`, {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
