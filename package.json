@@ -1,0 +1,16 @@
+{
+  "name": "velyra",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Prototipo académico de una marca digital de moda con frontend y API en Node.js.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check script.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "UNLICENSED"
+}
