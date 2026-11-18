@@ -15,17 +15,17 @@
 .admin-messages{background:#fff7e6;color:#344754;border-radius:25px}
 .admin-head a{color:#fff7e6}
 </style></head><body><div class="admin-wrap"><div class="admin-head"><a class="brand" href="index.html">VELYRA<span class="brand-star">✦</span></a><a href="index.html">← Volver a la página</a></div>
-<section class="admin-card" id="loginCard"><p class="eyebrow" style="color:#806494">PANEL PRIVADO · DEMOSTRACIÓN</p><h1>Bienvenida.</h1><p>Ingresa para revisar el panel de administración de VELYRA.</p><form class="admin-form" id="loginForm"><label for="adminEmail">Correo<input id="adminEmail" name="email" type="email" autocomplete="username" required placeholder="admin@velyra.co"></label><label for="adminPassword">Contraseña<input id="adminPassword" name="password" type="password" autocomplete="current-password" required placeholder="Contraseña"></label><button type="submit">Ingresar al panel ↗</button><p id="loginFeedback" role="status" aria-live="polite"></p></form><p class="admin-note"><b>Acceso de prueba:</b><br>Correo: admin@velyra.co<br>Contraseña: Velyra2026!</p></section>
+<section class="admin-card" id="loginCard"><p class="eyebrow" style="color:#806494">PANEL PRIVADO</p><h1>Bienvenida.</h1><p>Ingresa para revisar el panel de administración de VELYRA.</p><form class="admin-form" id="loginForm"><label for="adminEmail">Correo<input id="adminEmail" name="email" type="email" autocomplete="username" required placeholder="Correo de administración"></label><label for="adminPassword">Contraseña<input id="adminPassword" name="password" type="password" autocomplete="current-password" required placeholder="Contraseña"></label><button type="submit">Ingresar al panel ↗</button><p id="loginFeedback" role="status" aria-live="polite"></p></form><p class="admin-note">El acceso se configura de forma privada en el servidor. No uses credenciales de demostración en producción.</p></section>
 <section class="admin-panel" id="adminPanel"><p class="eyebrow">VELYRA STUDIO / ADMIN</p><h2>Resumen del proyecto</h2><p id="adminMode" class="admin-note">Modo de administración</p><div class="admin-stats"><div class="admin-stat">Productos del catálogo<b id="productCount">06</b></div><div class="admin-stat">Mensajes guardados<b id="messageCount">0</b></div><div class="admin-stat">Experiencia digital<b>VELYRA</b></div></div><div class="admin-messages"><h3>Mensajes de contacto</h3><div id="messageList">Todavía no hay mensajes guardados.</div><div class="admin-actions"><button class="admin-action" id="exportMessages">Exportar mensajes .json</button><button class="admin-action secondary" id="clearMessages">Vaciar mensajes</button><button class="admin-action secondary" id="logout">Cerrar sesión</button></div></div></section>
 </div><script>
 const $=s=>document.querySelector(s);
+const API_BASE=(window.VELYRA_API_URL||"").replace(/\/$/,"");
 let serverToken=sessionStorage.getItem('velyraServerToken')||'';
 let currentMessages=[];
-const demoMode=()=>!serverToken;
 async function api(path,options={}){
   const headers={...(options.headers||{}),'Content-Type':'application/json'};
   if(serverToken)headers.Authorization='Bearer '+serverToken;
-  const response=await fetch(path,{...options,headers});
+  const response=await fetch(`${API_BASE}${path}`,{...options,headers});
   const data=await response.json().catch(()=>({}));
   if(!response.ok)throw new Error(data.error||'No fue posible completar la acción.');
   return data;
@@ -35,30 +35,29 @@ $('#loginForm').addEventListener('submit',async e=>{
   $('#loginFeedback').textContent='Verificando acceso…';
   try{
     const result=await api('/api/admin/login',{method:'POST',body:JSON.stringify({email,password})});
-    serverToken=result.token;sessionStorage.setItem('velyraServerToken',serverToken);sessionStorage.setItem('velyraAdminDemo','yes');showPanel();
+    serverToken=result.token;sessionStorage.setItem('velyraServerToken',serverToken);showPanel();
   }catch(error){
-    // Fallback local para la versión estática publicada en GitHub Pages.
-    if(email==='admin@velyra.co'&&password==='Velyra2026!'){
-      serverToken='';sessionStorage.removeItem('velyraServerToken');sessionStorage.setItem('velyraAdminDemo','yes');showPanel();
-    }else $('#loginFeedback').textContent='Los datos no coinciden con el acceso de demostración.';
+    $('#loginFeedback').textContent=error.message.includes('Failed to fetch')
+      ?'No hay conexión con el servidor. La administración requiere el backend publicado.'
+      :error.message;
   }
 });
 async function showPanel(){
-  if(sessionStorage.getItem('velyraAdminDemo')!=='yes')return;
+  if(!serverToken)return;
   $('#loginCard').style.display='none';$('#adminPanel').style.display='block';
-  $('#adminMode').textContent=demoMode()?'Modo estático · datos de este navegador':'Backend local · datos en servidor';
+  $('#adminMode').textContent='Sesión autenticada · datos del servidor';
   await Promise.all([renderMessages(), renderProductCount()]);
 }
 async function renderProductCount(){
   try {
-    const response = await fetch('/api/products');
+    const response = await fetch(`${API_BASE}/api/products`);
     if (!response.ok) return;
     const products = await response.json();
     if (Array.isArray(products)) $('#productCount').textContent = String(products.length).padStart(2, '0');
-  } catch { /* El valor de referencia permanece visible en modo estático. */ }
+  } catch { /* El valor del catálogo queda sin cambios si la API no responde. */ }
 }
 async function renderMessages(){
-  try{currentMessages=serverToken?await api('/api/admin/messages'):JSON.parse(localStorage.getItem('velyraMessages')||'[]');}
+  try{currentMessages=await api('/api/admin/messages');}
   catch(error){currentMessages=[];$('#messageList').textContent=error.message;return;}
   $('#messageCount').textContent=currentMessages.length;const list=$('#messageList');list.innerHTML='';
   if(!currentMessages.length){list.textContent='Todavía no hay mensajes guardados.';return;}
@@ -67,12 +66,12 @@ async function renderMessages(){
 $('#exportMessages').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(currentMessages,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='velyra-mensajes.json';a.click();URL.revokeObjectURL(a.href);});
 $('#clearMessages').addEventListener('click',async()=>{
   if(!confirm('¿Seguro que deseas borrar los mensajes guardados?'))return;
-  try{if(serverToken)await api('/api/admin/messages',{method:'DELETE'});else localStorage.removeItem('velyraMessages');await renderMessages();}
+  try{await api('/api/admin/messages',{method:'DELETE'});await renderMessages();}
   catch(error){alert(error.message);}
 });
 $('#logout').addEventListener('click',async()=>{
   try{if(serverToken)await api('/api/admin/logout',{method:'POST'});}catch{}
-  sessionStorage.removeItem('velyraAdminDemo');sessionStorage.removeItem('velyraServerToken');location.reload();
+  sessionStorage.removeItem('velyraServerToken');location.reload();
 });
-showPanel();
+if(serverToken)showPanel();
 </script></body></html>

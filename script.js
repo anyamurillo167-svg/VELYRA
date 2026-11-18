@@ -178,43 +178,40 @@
   modal?.addEventListener("click",e=>{if(e.target===modal)closeModal();});
   document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal();});
 
-  // Friendly rule-based assistant demo
+  // Vely consulta el backend configurado; no simula respuestas si la API falla.
   const chatMessages=$("#chatMessages"), chatForm=$("#chatForm"), chatInput=$("#chatInput");
   function addMessage(text,who){const div=document.createElement("div");div.className="chat-bubble "+who;div.textContent=text;chatMessages.appendChild(div);chatMessages.scrollTop=chatMessages.scrollHeight;}
-  function replyTo(message){
-    const m=message.toLowerCase();
-    if(/look|ropa|outfit|vest|combina/.test(m))return "¡Vamos a crear algo lindo! ✨ Para un look casual prueba una blusa básica, un jean recto y accesorios plateados. Si quieres algo más elegante, suma una pieza protagonista y mantén el resto sencillo. ¿Para qué ocasión lo necesitas?";
-    if(/maquill|beauty|piel/.test(m))return "Podemos empezar por el mood que quieres: natural, luminoso, romántico o más dramático. En VELYRA la idea es explorar referencias y aprender a adaptar las tendencias a tus gustos, sin reglas rígidas. ✨";
-    if(/contenido|foto|video|redes|crear/.test(m))return "¡Idea creativa! Elige una paleta de 2 o 3 colores, define una inspiración y crea una mini secuencia: detalle del outfit, accesorio protagonista y resultado final. Así tu contenido se ve coherente sin perder naturalidad.";
-    if(/velyra|página|pagina|funciona|app|navegar/.test(m))return "VELYRA reúne moda, belleza, inspiración y creación de contenido. En esta página puedes explorar el catálogo, probar las pantallas de la app y conocer la idea de nuestro espacio físico creativo. La app aún es un concepto y esta asistente es una demostración. 🐰";
-    if(/presupuesto|precio|cuesta|valor|dinero/.test(m))return "En el catálogo encontrarás precios de referencia en pesos colombianos. Son valores ilustrativos para el proyecto académico, no cotizaciones ni inventario confirmado. 🌷";
-    if(/contacto|correo|mensaje/.test(m))return "Puedes escribirnos desde el formulario de contacto al final de la página o enviar un correo a sofimayita9@gmail.com. ✉️";
-    if(/hola|buenas|hey/.test(m))return "¡Holiii! 🐰💜 Qué gusto tenerte por aquí. ¿Hoy vienes por inspiración de moda, beauty o ideas para crear contenido?";
-    return "Te leo. 🌷 Cuéntame un poquito más: ¿buscas inspiración de moda, ideas de maquillaje, ayuda para crear contenido o información sobre el proyecto VELYRA?";
-  }
+  const API_BASE=(window.VELYRA_API_URL||"").replace(/\/$/,"");
   async function sendChat(text){
     const value=text.trim();if(!value)return;addMessage(value,"user");chatInput.value="";
-    try{const response=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:value})});if(!response.ok)throw new Error("API no disponible");const data=await response.json();addMessage(data.reply||replyTo(value),"bot");}
-    catch{window.setTimeout(()=>addMessage(replyTo(value),"bot"),350);}
+    try{
+      const response=await fetch(`${API_BASE}/api/chat`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:value})});
+      const data=await response.json().catch(()=>({}));
+      if(!response.ok)throw new Error(data.error||"Vely no está disponible en este momento.");
+      addMessage(data.reply||"No recibí una respuesta válida.", "bot");
+    }catch(error){
+      addMessage(error.message.includes("Failed to fetch")||error.message.includes("NetworkError")
+        ?"No pude conectar con Vely. La API todavía no está configurada o publicada. 🐰"
+        :error.message,"bot");
+    }
   }
   chatForm?.addEventListener("submit",e=>{e.preventDefault();sendChat(chatInput.value);});
   $$(".quick-prompts button").forEach(b=>b.addEventListener("click",()=>sendChat(b.dataset.prompt)));
 
-  // Contacto: usa el backend Node cuando está disponible; en Pages conserva una demo local.
+  // Contacto: el mensaje solo se confirma cuando el backend lo recibe.
   $("#contactForm")?.addEventListener("submit",async e=>{
     e.preventDefault();const form=e.currentTarget;const data=Object.fromEntries(new FormData(form).entries());
     const feedback=$("#contactFeedback");const submit=form.querySelector('button[type="submit"]');
     submit.disabled=true;feedback.textContent="Enviando tu mensaje…";
     try{
-      const response=await fetch("/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
+      const response=await fetch(`${API_BASE}/api/contact`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
       if(!response.ok)throw new Error("Backend no disponible");
       const result=await response.json();feedback.textContent=result.message||"¡Gracias! Recibimos tu mensaje.";
-    }catch{
-      const messages=readStore("velyraMessages",[]);messages.push({...data,date:new Date().toISOString()});
-      localStorage.setItem("velyraMessages",JSON.stringify(messages));
-      feedback.textContent="¡Gracias! Tu mensaje quedó guardado en este navegador (modo demostración).";
-    }
-    form.reset();submit.disabled=false;
+    }catch(error){
+      feedback.textContent=error.message.includes("Failed to fetch")||error.message.includes("NetworkError")
+        ?"No se pudo enviar: el servidor todavía no está conectado. Inténtalo más tarde."
+        :error.message;
+    }finally{submit.disabled=false;}
   });
 
   // Reveal elements on scroll
