@@ -1,0 +1,8 @@
+[
+  {"id":"aura","name":"Blusa Aura","category":"ropa","priceCOP":45000,"referencePrice":true},
+  {"id":"nocturne","name":"Top Nocturne","category":"ropa","priceCOP":38000,"referencePrice":true},
+  {"id":"eclipse","name":"Aretes Eclipse","category":"accesorios","priceCOP":22000,"referencePrice":true},
+  {"id":"sombra","name":"Mini bag Sombra","category":"bolsos","priceCOP":65000,"referencePrice":true},
+  {"id":"orbita","name":"Collar Órbita","category":"accesorios","priceCOP":28000,"referencePrice":true},
+  {"id":"amatista","name":"Falda Amatista","category":"ropa","priceCOP":59000,"referencePrice":true}
+]

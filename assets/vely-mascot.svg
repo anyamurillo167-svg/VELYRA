@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 470" role="img" aria-label="Vely, conejita de VELYRA">
+<defs><linearGradient id="fur" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#e9def8"/></linearGradient><linearGradient id="dress" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c9a9f3"/><stop offset="1" stop-color="#8d6bc0"/></linearGradient><filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="9" stdDeviation="9" flood-color="#33205a" flood-opacity=".18"/></filter></defs>
+<g filter="url(#shadow)" stroke="#51417f" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M123 156C72 81 76 15 116 18c47 3 75 76 91 130" fill="url(#fur)"/><path d="M220 145C226 61 275 7 309 28c39 24-3 105-50 151" fill="url(#fur)"/><path d="M115 42c16 8 37 45 49 85" fill="none" stroke="#c6a9ee" stroke-width="13"/><path d="M273 54c13-9 28-10 37-3-8 28-27 52-45 70" fill="none" stroke="#c6a9ee" stroke-width="13"/>
+<path d="M84 190c-6-66 43-116 126-120 82-4 139 48 139 125 0 91-60 147-143 147-78 0-122-56-122-152Z" fill="url(#fur)"/>
+<path d="M105 191c-27-20-47-5-44 18 2 16 17 24 34 19M326 194c27-19 46-1 39 20-5 15-19 21-34 15" fill="url(#fur)"/>
+<ellipse cx="154" cy="211" rx="20" ry="28" fill="#4b3b82" stroke="none"/><ellipse cx="264" cy="211" rx="20" ry="28" fill="#4b3b82" stroke="none"/><circle cx="160" cy="202" r="7" fill="#fff" stroke="none"/><circle cx="270" cy="202" r="7" fill="#fff" stroke="none"/>
+<path d="M193 247q17-17 34 0-16 23-34 0Z" fill="#b47b9c"/><path d="M210 270q-16 17-31 0M210 270q16 17 31 0" fill="none" stroke-width="5"/><path d="M115 244q20 16 38 0M270 244q20 16 38 0" fill="none" stroke="#e9a9c9" stroke-width="10"/>
+<path d="M127 318c-35 20-43 67-21 102 22 35 70 38 104 22 34 17 84 13 106-20 23-34 13-84-20-104-43-26-126-27-169 0Z" fill="url(#fur)"/>
+<path d="M145 320q64 47 130 0l23 80q-86 48-177 0Z" fill="url(#dress)"/><path d="M175 343q34 23 69 0" fill="none" stroke="#f7eaff" stroke-width="5"/><path d="M184 402l-18 30q-3 18 20 19l30-12 24 12q24 0 20-20l-18-29" fill="url(#fur)"/>
+<path d="M142 429q-26 9-28 28 24 14 66 4l16-18M245 443q29-17 55-5 12 17-8 27-33 9-58-2" fill="url(#fur)"/>
+<path d="M283 105q27-32 51-12 10 22-22 38-24 7-29-26Z" fill="#d9c5f6"/><path d="M300 102l10 12 16-4" fill="none" stroke="#8b6bb7" stroke-width="4"/>
+</g><path d="M210 297l8 10 12-2-8 10 3 12-15-6-13 6 3-13-9-9 13 1Z" fill="#d7b5ef" stroke="#fff" stroke-width="3"/><text x="210" y="464" text-anchor="middle" font-family="Manrope,Arial" font-size="23" font-weight="800" letter-spacing="3" fill="#57447f">VELY</text></svg>
