@@ -124,6 +124,7 @@ const server = http.createServer(async (req, res) => {
       return send(res, 404, { error: 'Ruta API no encontrada.' });
     }
 
+    if (!['GET', 'HEAD'].includes(req.method)) return send(res, 405, { error: 'Método no permitido.' }, { Allow: 'GET, HEAD' });
     let pathname;
     try { pathname = decodeURIComponent(url.pathname === '/' ? '/index.html' : url.pathname); }
     catch { return send(res, 400, { error: 'La ruta contiene una codificación inválida.' }); }
@@ -141,6 +142,7 @@ const server = http.createServer(async (req, res) => {
     const ext = path.extname(file).toLowerCase();
     const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.json': 'application/json; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp' };
     res.writeHead(200, { ...securityHeaders, 'Content-Type': types[ext] || 'application/octet-stream', 'X-Content-Type-Options': 'nosniff' });
+    if (req.method === 'HEAD') return res.end();
     fs.createReadStream(file).pipe(res);
   } catch (error) {
     const status = Number.isInteger(error.status) ? error.status : 500;
