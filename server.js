@@ -124,9 +124,12 @@ const server = http.createServer(async (req, res) => {
       return send(res, 404, { error: 'Ruta API no encontrada.' });
     }
 
-    let pathname = decodeURIComponent(url.pathname === '/' ? '/index.html' : url.pathname);
+    let pathname;
+    try { pathname = decodeURIComponent(url.pathname === '/' ? '/index.html' : url.pathname); }
+    catch { return send(res, 400, { error: 'La ruta contiene una codificación inválida.' }); }
     const file = path.resolve(ROOT, `.${pathname}`);
-    if (!file.startsWith(ROOT + path.sep) && file !== path.join(ROOT, 'index.html')) return send(res, 403, { error: 'Acceso denegado.' });
+    const relativeFile = path.relative(ROOT, file);
+    if (relativeFile.startsWith('..') || path.isAbsolute(relativeFile)) return send(res, 403, { error: 'Acceso denegado.' });
     if (!fs.existsSync(file) || !fs.statSync(file).isFile()) return send(res, 404, { error: 'Archivo no encontrado.' });
     const ext = path.extname(file).toLowerCase();
     const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.json': 'application/json; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp' };
