@@ -15,6 +15,9 @@ const PORT = Number(process.env.PORT || 3000);
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@velyra.co';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Velyra2026!';
 const sessions = new Map();
+const loginAttempts = new Map();
+const LOGIN_WINDOW_MS = 15 * 60 * 1000;
+const LOGIN_MAX_ATTEMPTS = 5;
 
 fs.mkdirSync(DATA, { recursive: true });
 if (!fs.existsSync(MESSAGES_FILE)) fs.writeFileSync(MESSAGES_FILE, '[]', 'utf8');
@@ -85,7 +88,22 @@ const server = http.createServer(async (req, res) => {
       }
       if (req.method === 'POST' && url.pathname === '/api/admin/login') {
         const body = await readBody(req);
-        if (safeText(body.email, 160) !== ADMIN_EMAIL || String(body.password || '') !== ADMIN_PASSWORD) return send(res, 401, { error: 'Correo o contraseña incorrectos.' });
+        const ip = req.socket.remoteAddress || 'unknown';
+        const now = Date.now();
+        const previous = loginAttempts.get(ip);
+        const attempt = previous && now - previous.startedAt < LOGIN_WINDOW_MS
+          ? previous
+          : { startedAt: now, count: 0 };
+        if (attempt.count >= LOGIN_MAX_ATTEMPTS) {
+          const retryAfter = Math.ceil((LOGIN_WINDOW_MS - (now - attempt.startedAt)) / 1000);
+          return send(res, 429, { error: 'Demasiados intentos. Inténtalo más tarde.' }, { 'Retry-After': String(retryAfter) });
+        }
+        if (safeText(body.email, 160) !== ADMIN_EMAIL || String(body.password || '') !== ADMIN_PASSWORD) {
+          attempt.count += 1;
+          loginAttempts.set(ip, attempt);
+          return send(res, 401, { error: 'Correo o contraseña incorrectos.' });
+        }
+        loginAttempts.delete(ip);
         const token = crypto.randomBytes(32).toString('hex');
         sessions.set(token, Date.now() + 8 * 60 * 60 * 1000);
         return send(res, 200, { token, expiresIn: 28800 });
