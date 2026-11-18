@@ -18,6 +18,7 @@ const sessions = new Map();
 const loginAttempts = new Map();
 const LOGIN_WINDOW_MS = 15 * 60 * 1000;
 const LOGIN_MAX_ATTEMPTS = 5;
+const MAX_STORED_MESSAGES = 500;
 
 fs.mkdirSync(DATA, { recursive: true });
 if (!fs.existsSync(MESSAGES_FILE)) fs.writeFileSync(MESSAGES_FILE, '[]', 'utf8');
@@ -83,7 +84,7 @@ const server = http.createServer(async (req, res) => {
         if (!name || !/^\S+@\S+\.\S+$/.test(email) || !message) return send(res, 400, { error: 'Completa nombre, correo válido y mensaje.' });
         const messages = readJSON(MESSAGES_FILE, []);
         messages.push({ id: crypto.randomUUID(), name, email, subject, message, date: new Date().toISOString() });
-        writeJSON(MESSAGES_FILE, messages);
+        writeJSON(MESSAGES_FILE, messages.slice(-MAX_STORED_MESSAGES));
         return send(res, 201, { ok: true, message: 'Mensaje recibido. ¡Gracias por escribirnos!' });
       }
       if (req.method === 'POST' && url.pathname === '/api/chat') {
