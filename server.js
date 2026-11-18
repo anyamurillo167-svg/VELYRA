@@ -55,6 +55,11 @@ const readBody = req => new Promise((resolve, reject) => {
   req.on('error', reject);
 });
 const safeText = (value, max = 2000) => String(value || '').trim().slice(0, max);
+const pruneExpiredSessions = now => {
+  for (const [token, expiry] of sessions) {
+    if (expiry <= now) sessions.delete(token);
+  }
+};
 
 function assistantReply(message) {
   const m = safeText(message, 500).toLocaleLowerCase('es-CO');
@@ -104,6 +109,7 @@ const server = http.createServer(async (req, res) => {
           return send(res, 401, { error: 'Correo o contraseña incorrectos.' });
         }
         loginAttempts.delete(ip);
+        pruneExpiredSessions(now);
         const token = crypto.randomBytes(32).toString('hex');
         sessions.set(token, Date.now() + 8 * 60 * 60 * 1000);
         return send(res, 200, { token, expiresIn: 28800 });
