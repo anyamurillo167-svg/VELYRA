@@ -30,9 +30,25 @@ const send = (res, status, payload, headers = {}) => {
   res.writeHead(status, { ...securityHeaders, 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...headers });
   res.end(JSON.stringify(payload));
 };
+class RequestError extends Error {
+  constructor(message, status) { super(message); this.status = status; }
+}
 const readBody = req => new Promise((resolve, reject) => {
-  let raw = ''; req.on('data', chunk => { raw += chunk; if (raw.length > 1_000_000) reject(new Error('Solicitud demasiado grande')); });
-  req.on('end', () => { try { resolve(JSON.parse(raw || '{}')); } catch { reject(new Error('JSON inválido')); } });
+  let raw = '';
+  let tooLarge = false;
+  req.on('data', chunk => {
+    if (tooLarge) return;
+    raw += chunk;
+    if (Buffer.byteLength(raw) > 64 * 1024) {
+      tooLarge = true;
+      reject(new RequestError('La solicitud supera el límite de 64 KB.', 413));
+    }
+  });
+  req.on('end', () => {
+    if (tooLarge) return;
+    try { resolve(JSON.parse(raw || '{}')); }
+    catch { reject(new RequestError('El cuerpo debe contener JSON válido.', 400)); }
+  });
   req.on('error', reject);
 });
 const safeText = (value, max = 2000) => String(value || '').trim().slice(0, max);
@@ -92,7 +108,9 @@ const server = http.createServer(async (req, res) => {
     res.writeHead(200, { ...securityHeaders, 'Content-Type': types[ext] || 'application/octet-stream', 'X-Content-Type-Options': 'nosniff' });
     fs.createReadStream(file).pipe(res);
   } catch (error) {
-    send(res, 500, { error: 'No fue posible procesar la solicitud.' });
+    const status = Number.isInteger(error.status) ? error.status : 500;
+    const message = status < 500 ? error.message : 'No fue posible procesar la solicitud.';
+    send(res, status, { error: message });
   }
 });
 server.listen(PORT, () => console.log(`VELYRA disponible en http://localhost:${PORT}`));
