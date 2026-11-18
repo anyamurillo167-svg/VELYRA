@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2d3a47">
+  <meta name="description" content="VELYRA: descubre tu estilo, explora la moda y crea una versión de ti que se sienta auténtica.">
+  <title>VELYRA — Tu estilo, tu universo</title>
+  <link rel="icon" href="assets/velyra-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&family=Marcellus&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="announcement">VELYRA STUDIO <span>—</span> Tu estilo también cuenta tu historia</div>
+  <header class="site-header" id="top">
+    <a class="brand" href="#top" aria-label="VELYRA inicio">VELYRA<span class="brand-star">✦</span></a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <nav class="main-nav" id="mainNav">
+      <a href="#universo">Universo</a>
+      <a href="#catalogo">Colección</a>
+      <a href="#app">La app</a>
+      <a href="#espacio">Experiencia</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-button sound-toggle" id="soundToggle" title="Activar o silenciar sonidos" aria-label="Activar sonidos">♫</button>
+      <button class="bag-button" id="bagButton" aria-label="Ver bolsa">Bolsa <span id="bagCount">0</span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-image"></div>
+      <div class="hero-shade"></div>
+      <div class="hero-content reveal">
+        <p class="eyebrow"><span></span> BEAUTY · FASHION · SELF EXPRESSION</p>
+        <h1>Tu estilo.<br><em>Tu universo.</em></h1>
+        <p class="hero-copy">Un espacio para explorar la moda, descubrir lo que te representa y crear sin pedir permiso.</p>
+        <div class="hero-buttons">
+          <a class="button button-light" href="#catalogo">Explorar colección <span>↗</span></a>
+          <a class="text-link" href="#app">Conoce la experiencia <span>↓</span></a>
+        </div>
+      </div>
+      <div class="hero-note">EST. 2026 <span>✦</span> COLOMBIA</div>
+      <div class="hero-index">01 / 04</div>
+      <div class="hero-mascot"><img src="assets/vely-mascot.svg" alt="Vely, conejita de VELYRA"><span>¡Hola, soy Vely!</span></div>
+    </section>
+
+    <section class="intro section-pad" id="universo">
+      <div class="section-kicker">01 — EL UNIVERSO VELYRA</div>
+      <div class="intro-grid">
+        <h2>La belleza no es<br>una regla. <em>Es una forma<br>de expresarte.</em></h2>
+        <div class="intro-text">
+          <p>VELYRA une una plataforma digital con la idea de un espacio físico creativo. Queremos que descubrir tu estilo sea una experiencia cercana: aprender, probar, inspirarte y sentirte cómoda siendo tú.</p>
+          <a class="under-link" href="#espacio">Descubre nuestra visión <span>↗</span></a>
+        </div>
+      </div>
+      
+      <div class="values-row">
+        <div><span>✧</span><b>Autenticidad</b><small>Tu identidad va primero.</small></div>
+        <div><span>◈</span><b>Exploración</b><small>Prueba, combina y descubre.</small></div>
+        <div><span>✦</span><b>Confianza</b><small>La moda se disfruta a tu manera.</small></div>
+      </div>
+    </section>
+
+    <section class="collection section-pad" id="catalogo">
+      <div class="section-kicker">02 — SELECCIÓN VELYRA</div>
+      <div class="section-heading">
+        <div><p class="eyebrow">CURATED FOR YOUR EVERYDAY</p><h2>Piezas para<br><em>ser tú.</em></h2></div>
+        <p>Una primera selección de moda y accesorios pensada como catálogo demostrativo. Precios de referencia en pesos colombianos.</p>
+      </div>
+      <div class="catalog-note"><span class="catalog-spark">✦</span><span>Una selección para inspirarte y encontrar piezas que hablen de ti. ♡</span></div>
+      <div class="catalog-tools">
+        <label class="catalog-search"><span aria-hidden="true">⌕</span><input id="catalogSearch" type="search" placeholder="Buscar una pieza..." aria-label="Buscar en el catálogo"></label>
+        <label class="catalog-sort"><span>Ordenar</span><select id="catalogSort" aria-label="Ordenar productos"><option value="featured">Destacados</option><option value="low">Menor precio</option><option value="high">Mayor precio</option><option value="az">Nombre A–Z</option></select></label>
+      </div>
+      <div class="catalog-toolbar">
+        <div class="filter-tabs" role="group" aria-label="Filtrar catálogo">
+          <button class="filter active" data-filter="todos">Todo</button>
+          <button class="filter" data-filter="ropa">Ropa</button>
+          <button class="filter" data-filter="accesorios">Accesorios</button>
+          <button class="filter" data-filter="bolsos">Bolsos</button>
+        </div>
+        <span class="catalog-count" id="catalogCount">06 PIEZAS</span>
+      </div>
+      <div class="product-grid" id="productGrid">
+        <article class="product-card" data-category="ropa" data-name="Blusa Aura" data-price="45000">
+          <div class="product-photo photo-one"><span class="product-tag">ESENCIAL</span><button class="favorite-toggle" aria-label="Guardar Blusa Aura en favoritos" aria-pressed="false">♡</button><button class="quick-add" aria-label="Añadir Blusa Aura">+</button></div>
+          <div class="product-info"><div><h3>Blusa Aura</h3><p>Básico elevado · Talla S–L</p></div><strong>$45.000</strong></div>
+        </article>
+        <article class="product-card" data-category="ropa" data-name="Top Nocturne" data-price="38000">
+          <div class="product-photo photo-two"><span class="product-tag">NUEVO</span><button class="favorite-toggle" aria-label="Guardar Top Nocturne en favoritos" aria-pressed="false">♡</button><button class="quick-add" aria-label="Añadir Top Nocturne">+</button></div>
+          <div class="product-info"><div><h3>Top Nocturne</h3><p>Silueta minimal · Talla S–L</p></div><strong>$38.000</strong></div>
+        </article>
+        <article class="product-card" data-category="accesorios" data-name="Aretes Eclipse" data-price="22000">
+          <div class="product-photo photo-three"><button class="favorite-toggle" aria-label="Guardar Aretes Eclipse en favoritos" aria-pressed="false">♡</button><button class="quick-add" aria-label="Añadir Aretes Eclipse">+</button></div>
+          <div class="product-info"><div><h3>Aretes Eclipse</h3><p>Acabado plateado</p></div><strong>$22.000</strong></div>
+        </article>
+        <article class="product-card" data-category="bolsos" data-name="Mini bag Sombra" data-price="65000">
+          <div class="product-photo photo-four"><span class="product-tag">FAVORITO</span><button class="favorite-toggle" aria-label="Guardar Mini bag Sombra en favoritos" aria-pressed="false">♡</button><button class="quick-add" aria-label="Añadir Mini bag Sombra">+</button></div>
+          <div class="product-info"><div><h3>Mini bag Sombra</h3><p>Bolso compacto</p></div><strong>$65.000</strong></div>
+        </article>
+        <article class="product-card" data-category="accesorios" data-name="Collar Órbita" data-price="28000">
+          <div class="product-photo photo-five"><button class="favorite-toggle" aria-label="Guardar Collar Órbita en favoritos" aria-pressed="false">♡</button><button class="quick-add" aria-label="Añadir Collar Órbita">+</button></div>
+          <div class="product-info"><div><h3>Collar Órbita</h3><p>Detalle delicado</p></div><strong>$28.000</strong></div>
+        </article>
+        <article class="product-card" data-category="ropa" data-name="Falda Amatista" data-price="59000">
+          <div class="product-photo photo-six"><button class="favorite-toggle" aria-label="Guardar Falda Amatista en favoritos" aria-pressed="false">♡</button><button class="quick-add" aria-label="Añadir Falda Amatista">+</button></div>
+          <div class="product-info"><div><h3>Falda Amatista</h3><p>Corte fluido · Talla S–L</p></div><strong>$59.000</strong></div>
+        </article>
+      </div>
+      <p class="catalog-empty" id="catalogEmpty" hidden>No encontramos piezas con esa búsqueda. Prueba con otra palabra o categoría.</p>
+      <p class="catalog-disclaimer">*Precios de referencia en pesos colombianos para el prototipo académico. No representan inventario ni disponibilidad confirmada.</p>
+    </section>
+
+
+    <section class="app-section section-pad" id="app">
+      <div class="section-kicker">03 — VELYRA EN TU BOLSILLO</div>
+      <div class="app-heading"><div><p class="eyebrow">YOUR PERSONAL STYLE COMPANION</p><h2>Una app para<br><em>explorar quién eres.</em></h2></div><p>Así imaginamos la experiencia móvil de VELYRA: una guía creativa para inspirarte, organizar ideas y experimentar con tu estilo.</p></div>
+      <div class="app-showcase">
+        <div class="app-copy">
+          <span class="app-live"><i></i> VISTA INTERACTIVA</span>
+          <h3 id="appScreenTitle">Tu espacio creativo</h3>
+          <p id="appScreenText">Encuentra inspiración y guarda ideas para construir looks que se sientan tuyos.</p>
+          <div class="app-controls">
+            <button class="app-tab active" data-screen="inicio">Inicio</button>
+            <button class="app-tab" data-screen="looks">Looks</button>
+            <button class="app-tab" data-screen="beauty">Beauty</button>
+            <button class="app-tab" data-screen="ideas">Contenido</button>
+          </div>
+          <button class="button button-outline" id="appDownload">Quiero conocer la app <span>↗</span></button>
+        </div>
+        <div class="phone-wrap">
+          <div class="phone">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <div class="phone-top"><span>9:41</span><span>◔ ▰</span></div>
+              <div class="phone-brand">VELYRA <small>✦</small></div><div class="phone-bunny"><img src="assets/vely-mascot.svg" alt="Vely"></div>
+              <div class="phone-greeting" id="phoneGreeting">Hola, creativa.</div>
+              <div class="phone-feature" id="phoneFeature"><span>✧ TU MOOD DE HOY</span><b>Soft<br>midnight</b><small>Una idea, mil formas de llevarla.</small></div>
+              <div class="phone-shortcuts"><span>◈<small>Looks</small></span><span>✧<small>Beauty</small></span><span>♡<small>Guardados</small></span></div>
+              <div class="phone-section-title">PARA INSPIRARTE</div>
+              <div class="phone-mini-grid"><div></div><div></div></div>
+              <div class="phone-bottom"><span>⌂</span><span>◇</span><span>♡</span><span>☻</span></div>
+            </div>
+          </div>
+          <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
+
+        </div>
+      </div>
+      <p class="app-disclaimer">La app móvil se presenta como concepto interactivo dentro de esta página; no es todavía una aplicación publicada para descargar.</p>
+    </section>
+
+    <section class="experience section-pad" id="espacio">
+      <div class="section-kicker">04 — MÁS QUE UNA PANTALLA</div>
+      <div class="experience-grid">
+        <div class="experience-image"></div>
+        <div class="experience-content"><p class="eyebrow">THE VELYRA EXPERIENCE</p><h2>Un lugar para<br><em>experimentar.</em></h2><p>La visión de VELYRA también contempla un espacio físico con asesorías, pantallas interactivas y zonas para aprender, crear contenido y descubrir nuevas formas de expresión.</p><div class="experience-points"><span>01 <b>Asesoría de estilo</b></span><span>02 <b>Zona de creación</b></span><span>03 <b>Experiencias beauty</b></span></div></div>
+      </div>
+    </section>
+
+    <section class="assistant-section section-pad" id="asistente">
+      <div class="section-kicker">05 — TU COMPAÑERA CREATIVA</div>
+      <div class="assistant-heading"><p class="eyebrow">MEET VELY</p><h2>Una amiga para<br><em>desbloquear ideas.</em></h2><p>Pregúntale sobre combinaciones, inspiración, moda o cómo navegar por VELYRA.</p></div>
+      <div class="chat-shell">
+        <div class="chat-top"><div class="chat-avatar"><img src="assets/vely-mascot.svg" alt="Vely"></div><div><b>Vely</b><small><i></i> Asistente VELYRA · Demo</small></div><span class="chat-spark">✦</span></div>
+        <div class="chat-messages" id="chatMessages" aria-live="polite"><div class="chat-bubble bot">¡Holiii! Soy Vely, tu compañera de estilo. 🌷 ¿Qué te gustaría explorar hoy?</div></div>
+        <div class="quick-prompts"><button data-prompt="Ayúdame a crear un look casual">Un look casual</button><button data-prompt="Quiero ideas para un estilo elegante">Estilo elegante</button><button data-prompt="¿Cómo funciona VELYRA?">Conocer VELYRA</button></div>
+        <form class="chat-form" id="chatForm"><input id="chatInput" type="text" placeholder="Escribe tu idea..." autocomplete="off" aria-label="Escribe un mensaje"><button type="submit" aria-label="Enviar mensaje">↑</button></form>
+        <p class="chat-disclaimer">Vely funciona con respuestas de demostración programadas. Para IA generativa real se requiere conectar un servicio de IA y proteger su clave en un backend.</p>
+      </div>
+    </section>
+
+    <section class="contact-section section-pad" id="contacto">
+      <div class="section-kicker">06 — HABLEMOS</div>
+      <div class="contact-grid"><div><p class="eyebrow">LET'S CREATE SOMETHING</p><h2>Tu próxima idea<br><em>empieza aquí.</em></h2><p>¿Quieres conocer el proyecto, proponer una colaboración o dejar un mensaje? Nos encantará leerte.</p><a class="contact-email" href="mailto:sofimayita9@gmail.com">sofimayita9@gmail.com</a></div>
+        <form class="contact-form" id="contactForm"><label>Tu nombre<input required name="name" placeholder="¿Cómo te llamas?"></label><label>Correo electrónico<input required type="email" name="email" placeholder="tunombre@correo.com"></label><label>¿En qué podemos ayudarte?<select name="subject"><option>Quiero conocer VELYRA</option><option>Colaboraciones</option><option>Información del proyecto</option><option>Otro mensaje</option></select></label><label>Mensaje<textarea required name="message" rows="3" placeholder="Cuéntanos un poquito..."></textarea></label><button class="button button-light" type="submit">Enviar mensaje <span>↗</span></button><p class="form-feedback" id="contactFeedback" aria-live="polite"></p></form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <a class="brand" href="#top">VELYRA<span class="brand-star">✦</span></a>
+    <p>Descubre tu estilo. Hazlo tuyo.</p>
+    <div class="footer-links"><a href="#universo">Universo</a><a href="#catalogo">Colección</a><a href="#app">La app</a><a href="#contacto">Contacto</a><a href="admin.html">Administración</a></div>
+    <small>© 2026 VELYRA · Proyecto de emprendimiento digital · Colombia</small>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="sparkle-layer" id="sparkleLayer" aria-hidden="true"></div>
+  <div class="modal-backdrop" id="modalBackdrop"><div class="modal"><button class="modal-close" id="modalClose" aria-label="Cerrar">×</button><span class="modal-icon">✦</span><h3 id="modalTitle">VELYRA App</h3><p id="modalText">La aplicación está en etapa de concepto. Esta vista muestra cómo podría sentirse la experiencia.</p><button class="button button-light" id="modalOk">Entendido</button></div></div>
+  <script src="script.js"></script>
+</body>
+</html>

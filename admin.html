@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#2d3a47"><title>VELYRA — Administración</title><link rel="stylesheet" href="styles.css"><style>
+.admin-wrap{min-height:100vh;padding:55px 7%;background:radial-gradient(circle at 80% 10%,#352344,#100d18 50%)}.admin-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:55px}.admin-head a{color:#c8b6d8;font-size:11px}.admin-card{max-width:570px;margin:auto;background:#f0eaf3;color:#241b2a;padding:38px;box-shadow:0 20px 70px #0006}.admin-card h1{font:500 36px "Playfair Display",Georgia,serif;margin:0 0 8px}.admin-card p{font-size:12px;color:#746a79}.admin-form{display:grid;gap:15px;margin-top:25px}.admin-form label{font-size:10px;letter-spacing:.1em;text-transform:uppercase}.admin-form input{display:block;width:100%;padding:12px;margin-top:6px;border:1px solid #d8cedf;background:#fff;color:#241b2a}.admin-form button,.admin-action{padding:12px 18px;background:#2b2035;color:white;border:0;cursor:pointer;font-size:11px;letter-spacing:.1em;text-transform:uppercase}.admin-note{font-size:10px!important;background:#e4dbe9;padding:12px}.admin-panel{display:none;max-width:900px;margin:35px auto}.admin-panel h2{font:500 30px "Playfair Display",Georgia,serif}.admin-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.admin-stat{background:#21182d;color:#eee;padding:20px}.admin-stat b{display:block;font:500 25px "Playfair Display",Georgia,serif}.admin-messages{margin-top:25px;background:#f0eaf3;color:#241b2a;padding:25px}.admin-messages h3{font:500 22px "Playfair Display",Georgia,serif}.message-item{padding:13px 0;border-bottom:1px solid #ddd2e4;font-size:12px}.message-item small{display:block;color:#817487}.admin-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.admin-action.secondary{background:transparent;color:#2b2035;border:1px solid #9c8ba8}@media(max-width:600px){.admin-card{padding:25px}.admin-stats{grid-template-columns:1fr}.admin-head{margin-bottom:35px}}
+
+.admin-wrap{background:radial-gradient(ellipse at 15% 5%,#72539b 0,#302342 38%,#171225 82%);padding:65px 7%}.admin-head .brand{font-family:"Marcellus",serif;font-size:29px;letter-spacing:.2em}.admin-card{border-radius:34px;border:1px solid #d7c0f0;box-shadow:0 30px 90px #08051188;padding:44px}.admin-card h1,.admin-panel h2,.admin-messages h3{font-family:"Cormorant Garamond",Georgia,serif;font-size:44px}.admin-card p,.admin-form label{font-size:14px}.admin-form input{border-radius:14px;padding:14px;font-size:15px}.admin-form button,.admin-action{border-radius:999px;padding:14px 21px;font-size:13px;background:linear-gradient(120deg,#5f4385,#a17acb)}.admin-note{border-radius:16px;font-size:13px!important;background:#e8ddf5}.admin-stat{border-radius:20px;background:linear-gradient(135deg,#3b2a53,#21182f);font-size:14px}.admin-stat b{font-family:"Cormorant Garamond",Georgia,serif;font-size:32px}.admin-messages{border-radius:24px}.message-item{font-size:14px}.message-item small{font-size:12px}@media(max-width:600px){.admin-card{padding:27px}}
+
+.admin-wrap{background:radial-gradient(ellipse at 12% 5%,#b46a72 0,#665879 35%,#2d3a47 82%)}
+.admin-card{background:#fff7e6;color:#2d3a47;border-color:#f7c8d3;border-radius:38px}
+.admin-card h1,.admin-panel h2,.admin-messages h3{font-family:"Cormorant Garamond",Georgia,serif;color:#2d3a47}
+.admin-card p,.admin-form label{font-size:15px;color:#53616a}
+.admin-form input{border-radius:15px;border-color:#e7c6ce;font-size:16px}
+.admin-form button,.admin-action{background:linear-gradient(120deg,#b46a72,#806b91);border-radius:999px;font-size:13px}
+.admin-note{background:#f7e5e8;border-radius:16px;color:#53616a;font-size:13px!important}
+.admin-stat{background:linear-gradient(135deg,#566a78,#2d3a47);border-radius:20px}
+.admin-messages{background:#fff7e6;color:#344754;border-radius:25px}
+.admin-head a{color:#fff7e6}
+</style></head><body><div class="admin-wrap"><div class="admin-head"><a class="brand" href="index.html">VELYRA<span class="brand-star">✦</span></a><a href="index.html">← Volver a la página</a></div>
+<section class="admin-card" id="loginCard"><p class="eyebrow" style="color:#806494">PANEL PRIVADO · DEMOSTRACIÓN</p><h1>Bienvenida.</h1><p>Ingresa para revisar el panel de administración de VELYRA.</p><form class="admin-form" id="loginForm"><label>Correo<input id="adminEmail" type="email" required placeholder="admin@velyra.co"></label><label>Contraseña<input id="adminPassword" type="password" required placeholder="Contraseña"></label><button type="submit">Ingresar al panel ↗</button><p id="loginFeedback" aria-live="polite"></p></form><p class="admin-note"><b>Acceso de prueba:</b><br>Correo: admin@velyra.co<br>Contraseña: Velyra2026!</p></section>
+<section class="admin-panel" id="adminPanel"><p class="eyebrow">VELYRA STUDIO / ADMIN</p><h2>Resumen del proyecto</h2><p id="adminMode" class="admin-note">Modo de administración</p><div class="admin-stats"><div class="admin-stat">Productos del catálogo<b>06</b></div><div class="admin-stat">Mensajes guardados<b id="messageCount">0</b></div><div class="admin-stat">Experiencia digital<b>VELYRA</b></div></div><div class="admin-messages"><h3>Mensajes de contacto</h3><div id="messageList">Todavía no hay mensajes guardados.</div><div class="admin-actions"><button class="admin-action" id="exportMessages">Exportar mensajes .json</button><button class="admin-action secondary" id="clearMessages">Vaciar mensajes</button><button class="admin-action secondary" id="logout">Cerrar sesión</button></div></div></section>
+</div><script>
+const $=s=>document.querySelector(s);
+let serverToken=sessionStorage.getItem('velyraServerToken')||'';
+let currentMessages=[];
+const demoMode=()=>!serverToken;
+async function api(path,options={}){
+  const headers={...(options.headers||{}),'Content-Type':'application/json'};
+  if(serverToken)headers.Authorization='Bearer '+serverToken;
+  const response=await fetch(path,{...options,headers});
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error(data.error||'No fue posible completar la acción.');
+  return data;
+}
+$('#loginForm').addEventListener('submit',async e=>{
+  e.preventDefault();const email=$('#adminEmail').value.trim(),password=$('#adminPassword').value;
+  $('#loginFeedback').textContent='Verificando acceso…';
+  try{
+    const result=await api('/api/admin/login',{method:'POST',body:JSON.stringify({email,password})});
+    serverToken=result.token;sessionStorage.setItem('velyraServerToken',serverToken);sessionStorage.setItem('velyraAdminDemo','yes');showPanel();
+  }catch(error){
+    // Fallback local para la versión estática publicada en GitHub Pages.
+    if(email==='admin@velyra.co'&&password==='Velyra2026!'){
+      serverToken='';sessionStorage.removeItem('velyraServerToken');sessionStorage.setItem('velyraAdminDemo','yes');showPanel();
+    }else $('#loginFeedback').textContent='Los datos no coinciden con el acceso de demostración.';
+  }
+});
+async function showPanel(){
+  if(sessionStorage.getItem('velyraAdminDemo')!=='yes')return;
+  $('#loginCard').style.display='none';$('#adminPanel').style.display='block';
+  $('#adminMode').textContent=demoMode()?'Modo estático · datos de este navegador':'Backend local · datos en servidor';
+  await renderMessages();
+}
+async function renderMessages(){
+  try{currentMessages=serverToken?await api('/api/admin/messages'):JSON.parse(localStorage.getItem('velyraMessages')||'[]');}
+  catch(error){currentMessages=[];$('#messageList').textContent=error.message;return;}
+  $('#messageCount').textContent=currentMessages.length;const list=$('#messageList');list.innerHTML='';
+  if(!currentMessages.length){list.textContent='Todavía no hay mensajes guardados.';return;}
+  currentMessages.slice().reverse().forEach(m=>{const div=document.createElement('div');div.className='message-item';const b=document.createElement('b');b.textContent=m.name+' · '+m.subject;const small=document.createElement('small');small.textContent=m.email+' · '+new Date(m.date).toLocaleString('es-CO');const p=document.createElement('p');p.textContent=m.message;div.append(b,small,p);list.append(div);});
+}
+$('#exportMessages').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(currentMessages,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='velyra-mensajes.json';a.click();URL.revokeObjectURL(a.href);});
+$('#clearMessages').addEventListener('click',async()=>{
+  if(!confirm('¿Seguro que deseas borrar los mensajes guardados?'))return;
+  try{if(serverToken)await api('/api/admin/messages',{method:'DELETE'});else localStorage.removeItem('velyraMessages');await renderMessages();}
+  catch(error){alert(error.message);}
+});
+$('#logout').addEventListener('click',async()=>{
+  try{if(serverToken)await api('/api/admin/logout',{method:'POST'});}catch{}
+  sessionStorage.removeItem('velyraAdminDemo');sessionStorage.removeItem('velyraServerToken');location.reload();
+});
+showPanel();
+</script></body></html>
