@@ -37,3 +37,14 @@ $300.000 COP. Distribución preliminar: $210.000 para primeras piezas/muestra de
 - Desplegar el backend y conectar el formulario a una bandeja compartida.
 - Convertir la demostración de pantallas en una app móvil real.
 - Integrar pagos y pedidos solo cuando exista operación comercial.
+
+## Verificación del proyecto
+
+La carpeta incluye un historial Git de 15 commits reales, además de `package.json` con comandos para iniciar y comprobar el proyecto. Para ejecutar las comprobaciones desde la carpeta raíz:
+
+```bash
+npm run check
+npm test
+```
+
+Las pruebas se ejecutan sobre una copia temporal de los archivos del servidor.

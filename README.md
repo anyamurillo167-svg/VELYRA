@@ -40,13 +40,15 @@ La dirección visual toma inspiración general de páginas editoriales de moda y
 3. Ejecuta:
 
 ```bash
-node server.js
+npm start
 ```
+
+También puedes iniciar el servidor directamente con `node server.js`.
 
 4. Abre `http://localhost:3000` en el navegador.
 5. Para comprobar que la API está activa, visita `http://localhost:3000/api/health`.
 
-No requiere instalar paquetes adicionales. El servidor utiliza módulos integrados de Node.js.
+No requiere instalar paquetes adicionales. El servidor utiliza módulos integrados de Node.js. Se recomienda Node.js 18 o superior.
 
 ## 4. Acceso de demostración al panel
 
@@ -128,7 +130,16 @@ Para que el formulario, chat y panel compartan datos en internet, despliega `ser
 
 ## 8. Requisito de Git: mínimo 15 commits
 
-El material de instrucciones indica realizar **mínimo 15 commits reales**. No se deben inventar ni simular: hazlos en el repositorio mientras desarrollas y ajustas el proyecto. Una secuencia posible:
+Esta entrega incluye un repositorio Git inicializado en la rama `main` con **15 commits reales**: un commit de importación de la versión base y 14 commits posteriores con ajustes concretos de configuración, pruebas, seguridad, accesibilidad, SEO y documentación. El historial refleja los cambios realizados al preparar esta entrega; no pretende reconstruir fechas ni commits de desarrollo anteriores.
+
+Puedes comprobarlo con:
+
+```bash
+git log --oneline
+git rev-list --count HEAD
+```
+
+El segundo comando debe mostrar `15`. Para continuar desarrollando, realiza nuevos commits por cada cambio real. Una secuencia de desarrollo futura podría ser:
 
 1. `chore: crear estructura inicial de VELYRA`
 2. `feat: construir navegación principal`
@@ -149,7 +160,18 @@ El material de instrucciones indica realizar **mínimo 15 commits reales**. No s
 
 Cada commit debe corresponder a cambios reales. Si el repositorio se crea cuando el desarrollo ya está terminado, realiza ajustes auténticos y commits incrementales; no fabriques fechas ni historial.
 
-## 9. Límites de esta versión
+## 9. Comprobaciones técnicas
+
+El proyecto incluye comandos de verificación en `package.json`:
+
+```bash
+npm run check
+npm test
+```
+
+Las pruebas levantan una copia temporal del servidor y verifican la API, validaciones del formulario, autenticación del panel, cabeceras HTTP, respuesta HEAD y página 404. No modifican los mensajes de la carpeta de datos original.
+
+## 10. Límites de esta versión
 
 - El catálogo es una muestra; no tiene inventario ni compra real.
 - La bolsa calcula un total ilustrativo; no cobra ni procesa pedidos.
@@ -158,7 +180,7 @@ Cada commit debe corresponder a cambios reales. Si el repositorio se crea cuando
 - El backend Node incluido sirve para demostración y pruebas locales. No es una infraestructura de producción.
 - El sitio se puede publicar como frontend estático en GitHub Pages; el backend debe desplegarse por separado.
 
-## 10. Referencias de precios consultadas
+## 11. Referencias de precios consultadas
 
 - [Mercado Lista — referencias de precios de blusas en Colombia](https://www.mercadolista.com/categoria/moda/mujer/ropa-mujer/blusas-mujer)
 - [LuegoPago — catálogo de blusas y accesorios](https://luegopago.com/categorias/ropa-y-accesorios/blusas-ropa-y-accesorios)
