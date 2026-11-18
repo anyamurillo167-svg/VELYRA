@@ -130,7 +130,14 @@ const server = http.createServer(async (req, res) => {
     const file = path.resolve(ROOT, `.${pathname}`);
     const relativeFile = path.relative(ROOT, file);
     if (relativeFile.startsWith('..') || path.isAbsolute(relativeFile)) return send(res, 403, { error: 'Acceso denegado.' });
-    if (!fs.existsSync(file) || !fs.statSync(file).isFile()) return send(res, 404, { error: 'Archivo no encontrado.' });
+    if (!fs.existsSync(file) || !fs.statSync(file).isFile()) {
+      const notFoundPage = path.join(ROOT, '404.html');
+      if (fs.existsSync(notFoundPage)) {
+        res.writeHead(404, { ...securityHeaders, 'Content-Type': 'text/html; charset=utf-8' });
+        return fs.createReadStream(notFoundPage).pipe(res);
+      }
+      return send(res, 404, { error: 'Archivo no encontrado.' });
+    }
     const ext = path.extname(file).toLowerCase();
     const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.json': 'application/json; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp' };
     res.writeHead(200, { ...securityHeaders, 'Content-Type': types[ext] || 'application/octet-stream', 'X-Content-Type-Options': 'nosniff' });
